@@ -49,7 +49,7 @@ TreeNode *get_node(Tree *tree, ...);
 int tree_height(TreeNode *node);
 
 int tree_height(TreeNode *node);
-void fill_levels(Tree *tree, TreeNode *node, int level, int pos, char ***lines,
-                 int width, int offset);
+void fill_levels(Tree *tree, TreeNode *node, int level, int pos, char **lines,
+                 int width);
 void print_tree(Tree *tree);
 void print_node(Tree *tree, TreeNode *node);
