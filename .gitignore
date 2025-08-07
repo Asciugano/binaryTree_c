@@ -1,0 +1,23 @@
+# Ignora la cartella bin/ e tutto il suo contenuto
+bin/
+build/
+
+# File oggetto
+*.o
+
+# File eseguibili (in caso siano nella root)
+*.out
+*.exe
+main
+
+# File temporanei dell'editor
+*~
+*.swp
+*.swo
+.DS_Store
+
+# Backup di compilatori o editor
+*.bak
+*.tmp
+
+src/main.c
