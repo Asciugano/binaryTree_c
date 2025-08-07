@@ -41,6 +41,7 @@ Tree *initTree(DataType type);
 TreeNode *initNode(Tree *tree, ...);
 
 void free_tree(Tree *tree, bool free_struct);
+void free_tree_node(Tree *tree, TreeNode *node);
 
 void push(Tree *tree, TreeNode *newNode);
 TreeNode *pop(Tree *tree, TreeNode *node);

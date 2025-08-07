@@ -1,4 +1,6 @@
 #include "./binaryTree.h"
+#include <stdbool.h>
+#include <stdlib.h>
 
 void *make_value(Tree *tree, ...) {
   va_list args;
@@ -173,4 +175,27 @@ void print_tree(Tree *tree) {
     free(lines[i]);
   }
   free(lines);
+}
+
+void free_tree_node(Tree *tree, TreeNode *node) {
+  if (!node)
+    return;
+
+  free_tree_node(tree, node->left);
+  free_tree_node(tree, node->right);
+
+  if (tree->free)
+    tree->free(node->value);
+
+  free(node);
+}
+
+void free_tree(Tree *tree, bool free_struct) {
+  if (!tree)
+    return;
+
+  free_tree_node(tree, tree->root);
+
+  if (free_struct)
+    free(tree);
 }
