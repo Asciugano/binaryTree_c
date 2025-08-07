@@ -16,4 +16,4 @@ void *make_char(va_list args) {
   return ptr;
 }
 
-bool grather_char(void *a, void *b) { return *(char *)a > *(char *)b; }
+bool greather_char(void *a, void *b) { return *(char *)a > *(char *)b; }

@@ -1,8 +1,4 @@
 #include "./binaryTree.h"
-#include <_stdio.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <sys/_types/_va_list.h>
 
 void *make_value(Tree *tree, ...) {
   va_list args;
@@ -24,8 +20,6 @@ TreeNode *initNode(Tree *tree, ...) {
   node->left = NULL;
   node->right = NULL;
   node->value = value;
-
-  free(value);
 
   return node;
 }

@@ -15,4 +15,4 @@ void *make_float(va_list args) {
   return ptr;
 }
 
-bool grather_float(void *a, void *b) { return *(float *)a > *(float *)b; }
+bool greather_float(void *a, void *b) { return *(float *)a > *(float *)b; }

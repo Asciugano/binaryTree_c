@@ -15,4 +15,4 @@ void *make_int(va_list args) {
   return ptr;
 }
 
-bool grather_int(void *a, void *b) { return *(int *)a > *(int *)b; }
+bool greather_int(void *a, void *b) { return *(int *)a > *(int *)b; }
