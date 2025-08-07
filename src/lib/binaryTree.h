@@ -33,6 +33,8 @@ typedef struct Tree {
   void *(*make)(va_list);
 } Tree;
 
+void *make_value(Tree *tree, ...);
+
 Tree *initTree(DataType type);
 TreeNode *initNode(Tree *tree, ...);
 

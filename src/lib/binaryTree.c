@@ -2,6 +2,16 @@
 #include <_stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <sys/_types/_va_list.h>
+
+void *make_value(Tree *tree, ...) {
+  va_list args;
+  va_start(args, tree);
+  void *result = tree->make(args);
+  va_end(args);
+
+  return result;
+}
 
 TreeNode *initNode(Tree *tree, ...) {
   va_list args;
@@ -34,19 +44,22 @@ Tree *initTree(DataType type) {
     tree->cmp = compare_int;
     tree->to_string = int_toString;
     tree->free = free_int;
-    tree->make = (void *(*)(va_tree))make_int;
+    tree->make = (void *(*)(va_list))make_int;
+    tree->greather = greather_int;
     break;
   case TYPE_FLOAT:
     tree->cmp = compare_float;
     tree->to_string = float_toString;
     tree->free = free_float;
-    tree->make = (void *(*)(va_tree))make_float;
+    tree->make = (void *(*)(va_list))make_float;
+    tree->greather = greather_float;
     break;
   case TYPE_CHAR:
     tree->cmp = compare_char;
     tree->to_string = char_toString;
     tree->free = free_char;
-    tree->make = (void *(*)(va_tree))make_char;
+    tree->make = (void *(*)(va_list))make_char;
+    tree->greather = greather_char;
     break;
   default:
     tree->cmp = NULL;
