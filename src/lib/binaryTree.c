@@ -1,4 +1,5 @@
 #include "./binaryTree.h"
+#include <stdio.h>
 
 void *make_value(Tree *tree, ...) {
   va_list args;
@@ -103,4 +104,65 @@ void push(Tree *tree, TreeNode *newNode) {
   }
 }
 
-TreeNode *pop(Tree *tree, TreeNode *node) { return NULL; }
+int tree_height(TreeNode *node) {
+  if (!node)
+    return 0;
+  int left = tree_height(node->left);
+  int right = tree_height(node->right);
+  return (left > right ? left : right) + 1;
+}
+
+void fill_levels(Tree *tree, TreeNode *node, int level, int pos, char ***lines,
+                 int width, int offset) {
+  if (!node)
+    return;
+
+  char buffer[32];
+  tree->to_string(node->value, buffer);
+
+  int len = (int)strlen(buffer);
+  int index = pos + offset - len / 2;
+  if (index < 0)
+    index = 0;
+
+  snprintf((*lines)[level] + index, len + 1, "%s", buffer);
+
+  if (node->left) {
+    (*lines)[level + 1][pos - 1] = '/';
+    fill_levels(tree, node->left, level + 2, pos - width / 2, lines, width / 2,
+                offset);
+  }
+
+  if (node->right) {
+    (*lines)[level + 1][pos + 1] = '\\';
+    fill_levels(tree, node->right, level + 2, pos + width / 2, lines, width / 2,
+                offset);
+  }
+}
+
+void print_tree(Tree *tree) {
+  if (!tree || !tree->root || tree->len == 0) {
+    printf("[empty]\n");
+    return;
+  }
+
+  int height = tree_height(tree->root);
+  int max_width = (1 << height) * 2; // powers of two, for spacing
+
+  int total_lines = height * 2 - 1;
+  char **lines = malloc(sizeof(char *) * total_lines);
+  for (int i = 0; i < total_lines; i++) {
+    lines[i] = calloc(max_width + 1, sizeof(char));
+    memset(lines[i], ' ', max_width);
+    lines[i][max_width] = '\0';
+  }
+
+  fill_levels(tree, tree->root, 0, max_width / 2, &lines, max_width / 2, 0);
+
+  for (int i = 0; i < total_lines; i++) {
+    printf("%s\n", lines[i]);
+    free(lines[i]);
+  }
+
+  free(lines);
+}

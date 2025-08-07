@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "./utils/char.h"
 #include "./utils/float.h"
@@ -43,9 +44,12 @@ void free_tree(Tree *tree, bool free_struct);
 
 void push(Tree *tree, TreeNode *newNode);
 TreeNode *pop(Tree *tree, TreeNode *node);
-
 TreeNode *get_node(Tree *tree, ...);
 
+int tree_height(TreeNode *node);
+
+int tree_height(TreeNode *node);
+void fill_levels(Tree *tree, TreeNode *node, int level, int pos, char ***lines,
+                 int width, int offset);
 void print_tree(Tree *tree);
-char *three_toString(Tree *tree);
 void print_node(Tree *tree, TreeNode *node);
