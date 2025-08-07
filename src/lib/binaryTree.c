@@ -1,6 +1,8 @@
 #include "./binaryTree.h"
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 void *make_value(Tree *tree, ...) {
   va_list args;
@@ -198,4 +200,53 @@ void free_tree(Tree *tree, bool free_struct) {
 
   if (free_struct)
     free(tree);
+}
+
+TreeNode *get_node(Tree *tree, ...) {
+  if (!tree || !tree->root || !tree->make)
+    return NULL;
+
+  va_list args;
+  va_start(args, tree);
+  void *value = tree->make(args);
+  va_end(args);
+
+  TreeNode *curr = tree->root;
+  while (curr) {
+    if (tree->cmp(curr->value, value)) {
+      return curr;
+    }
+    if (tree->greather(value, curr->value)) {
+      curr = curr->right;
+    } else {
+      curr = curr->left;
+    }
+  }
+
+  return NULL;
+}
+
+void print_node(Tree *tree, TreeNode *node) {
+  if (!tree || !node)
+    return;
+
+  char *str = malloc(sizeof(char) * 128);
+  str[0] = '\0';
+  char buffer[64];
+  tree->to_string(node->value, buffer);
+  if (tree->cmp(tree->root->value, node->value)) {
+    strcat(str, "root: ");
+  } else {
+    TreeNode *father = node->father;
+    if (tree->cmp(father->left->value, node->value)) {
+      strcat(str, "left: ");
+    } else {
+      strcat(str, "right: ");
+    }
+  }
+  strcat(str, buffer);
+  strcat(str, "\n");
+
+  printf("%s", str);
+  free(str);
 }
