@@ -45,6 +45,8 @@ void free_tree_node(Tree *tree, TreeNode *node);
 
 void push(Tree *tree, TreeNode *newNode);
 TreeNode *pop(Tree *tree, TreeNode *node);
+TreeNode *pop_min(Tree *tree, TreeNode **out_min);
+TreeNode *pop_max(Tree *tree, TreeNode **out_max);
 TreeNode *get_node(Tree *tree, ...);
 
 int tree_height(TreeNode *node);

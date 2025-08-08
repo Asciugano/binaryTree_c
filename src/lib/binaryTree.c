@@ -1,8 +1,6 @@
 #include "./binaryTree.h"
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <_stdio.h>
+#include <stdnoreturn.h>
 
 void *make_value(Tree *tree, ...) {
   va_list args;
@@ -105,6 +103,100 @@ void push(Tree *tree, TreeNode *newNode) {
       }
     }
   }
+}
+
+TreeNode *find_min(Tree *tree) {
+  if (!tree || !tree->root)
+    return NULL;
+
+  TreeNode *node = tree->root;
+  while (node->left)
+    node = node->left;
+  return node;
+}
+
+TreeNode *find_max(Tree *tree) {
+  if (!tree || !tree->root)
+    return NULL;
+
+  TreeNode *node = tree->root;
+  while (node->right)
+    node = node->right;
+  return node;
+}
+
+TreeNode *pop_node(Tree *tree, TreeNode *curr, TreeNode *target,
+                   TreeNode **out_deleted) {
+  if (!tree || !tree->root || !target)
+    return NULL;
+
+  if (curr == NULL)
+    curr = tree->root;
+
+  if (tree->greather(target->value, curr->value)) {
+    curr->right = pop_node(tree, curr->right, target, out_deleted);
+  } else if (tree->greather(curr->value, target->value)) {
+    curr->left = pop_node(tree, curr->left, target, out_deleted);
+  } else {
+    *out_deleted = curr;
+
+    if (!curr->left && !curr->right)
+      return NULL;
+
+    if (!curr->left)
+      return curr->right;
+    if (!curr->right)
+      return curr->left;
+
+    TreeNode *min_right = find_min(tree);
+    curr->value = min_right->value;
+  }
+
+  return curr;
+}
+
+TreeNode *pop_max(Tree *tree, TreeNode **out_max) {
+  if (!tree || !tree->root)
+    return NULL;
+
+  TreeNode *max = find_max(tree);
+  if (!max)
+    return NULL;
+
+  TreeNode *deleted = pop(tree, max);
+  if (out_max)
+    *out_max = deleted;
+
+  return deleted;
+}
+
+TreeNode *pop_min(Tree *tree, TreeNode **out_min) {
+  if (!tree || !tree->root)
+    return NULL;
+
+  TreeNode *min = find_min(tree);
+  if (!min)
+    return NULL;
+
+  TreeNode *deleted = pop(tree, min);
+  if (out_min)
+    *out_min = deleted;
+
+  return deleted;
+}
+
+TreeNode *pop(Tree *tree, TreeNode *node) {
+  if (!tree || !node || !tree->root)
+    return NULL;
+
+  TreeNode *deleted = pop_node(tree, NULL, node, &deleted);
+
+  if (deleted) {
+    tree->len--;
+    return deleted;
+  }
+
+  return NULL;
 }
 
 int tree_height(TreeNode *node) {
