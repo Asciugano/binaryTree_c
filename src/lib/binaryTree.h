@@ -49,6 +49,9 @@ TreeNode *pop_min(Tree *tree, TreeNode **out_min);
 TreeNode *pop_max(Tree *tree, TreeNode **out_max);
 TreeNode *get_node(Tree *tree, ...);
 
+TreeNode *find_min(Tree *tree);
+TreeNode *find_max(Tree *tree);
+
 int tree_height(TreeNode *node);
 
 int tree_height(TreeNode *node);
